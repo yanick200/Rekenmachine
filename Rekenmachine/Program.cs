@@ -52,13 +52,17 @@ namespace Rekenmachine
             {
                 Environment.Exit(0); //programmma sluiten 
             }
+            else if (invoer == "locals")
+            {
+                showlocals(mSave);//lijst tonen van de opgeslagen variabelen 
+            }
             else if (invoer.Contains("m") && invoer.Contains("="))
             {
                 oplsaan(mSave, invoer); //variabelen opslaan 
             }
-            else if (invoer == "locals")
+           else if (invoer.Contains("^"))
             {
-                showlocals(mSave);//lijst tonen van de opgeslagen variabelen 
+                Macht(invoer);
             }
             else if (invoer.Contains("m"))
             {
@@ -86,6 +90,7 @@ namespace Rekenmachine
             Console.WriteLine("> -               1-2             //Geeft het verschil van de getallen weer");
             Console.WriteLine("> *               1*2             //Geeft het product van de getallen weer");
             Console.WriteLine("> /               1/2             //Geeft het quotiënt van de getallen weer");
+            Console.WriteLine("> ^               2^3             //Geeft de macht van het het getal weer ");
             Console.WriteLine("> %               1%2             //Geeft de delingsrest van de getallen weer");
             Console.WriteLine(">");
 
@@ -203,8 +208,10 @@ namespace Rekenmachine
         {
             //bepalen wat de index is voor de array 
             int index =Convert.ToInt32(_invoer.Substring(1, 1));
+
             //bepalen wat de waarde is die moet worden opgeslagen 
             string waarde = _invoer.Substring(3, _invoer.Length-3);
+
             //opslaan van de waarde in de array 
             _mSave[index] = Convert.ToDouble(waarde);
 
@@ -238,6 +245,31 @@ namespace Rekenmachine
 
             Bereken(berekening);//de berkening doen door eerder aangemaakte functie 
         }
+
+        //functie om machten te bereken 
+        private static void Macht(string _invoer)
+        {
+            int macht=0,grondtal=0;
+
+            //overlopen van de invoer 
+            for (int i = 1; i < _invoer.Length; i++)
+            {
+                grondtal = Convert.ToInt32(_invoer.Substring(0, i));//grondtal uit de string halen 
+
+                //controleren waar de ^ staat 
+                if (_invoer.Substring(i,1)=="^")
+                {
+                    //macht uit de string halen
+                    macht = Convert.ToInt32(_invoer.Substring(i+1,_invoer.Length-(i+1)));//macht uit de string halen 
+                    i = _invoer.Length;//for loop breken 
+                }
+
+               
+            }
+          
+           Console.WriteLine($"{Math.Pow(grondtal,macht)}");//uitreken van de macht 
+        } 
+
 
     }
 }
